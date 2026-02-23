@@ -83,12 +83,24 @@ def addproduct():
 
    connection.commit()
 
+   return jsonify({"message": "product added successful"})
 
+@app.route("/api/get_product")
+def get_product():
+   connection=pymysql.connect(host="localhost", user="root", password="", database="richard_sokogarden")
+   cursor = connection.cursor(pymysql.cursors.DictCursor)
+   sql = "select * from product_details"
+   cursor.execute(sql)
+   if cursor.rowcount == 0:
+      return jsonify({'message', "out of stock"})
+   else:
+      product = cursor.fetchall()
+      return jsonify(product)
 
 
   
    
-   return jsonify({"message": "product added successful"})
+ 
 
 
 if __name__ == "__main__":
